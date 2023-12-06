@@ -21,7 +21,9 @@ public class EmployerController {
 //    Add an index method that responds at /employers with a list of all employers in the
 //    database. This method should use the template employers/index. To figure out the name of
 //    the model attribute you should use to pass employers into the view, review this template.
+   @GetMapping("/")
     public String index(Model model){
+       model.addAttribute("title", "All Employers");
         model.addAttribute("employers", employerRepository.findAll());
         return "employers/index";
     }
@@ -39,8 +41,9 @@ public class EmployerController {
         if (errors.hasErrors()) {
             return "employers/add";
         }
-
-        return "redirect:add";
+        employerRepository.save(newEmployer);
+        model.addAttribute("employer", employerRepository.findAll());
+        return "redirect:./";
     }
 
     @GetMapping("view/{employerId}")

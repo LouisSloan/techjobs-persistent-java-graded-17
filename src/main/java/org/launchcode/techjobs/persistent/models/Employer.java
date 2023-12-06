@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,8 +21,12 @@ public class Employer extends AbstractEntity {
 
     @OneToMany
     @JoinColumn (name = "employer_id")
-    private List<Job> jobs;
+    private List<Job> jobs = new ArrayList<>();
     public String getLocation() {
         return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

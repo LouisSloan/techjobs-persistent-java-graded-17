@@ -18,7 +18,9 @@ import java.util.Optional;
 public class SkillController {
     @Autowired
     private SkillRepository skillRepository;
+    @GetMapping("/")
     public String index(Model model){
+        model.addAttribute("title", "All Skills");
         model.addAttribute("skills", skillRepository.findAll());
         return "skills/index";
     }
@@ -28,17 +30,17 @@ public class SkillController {
         return "skills/add";
     }
     @PostMapping("add")
-    public String processAddSkillForm(@ModelAttribute @Valid Employer newSkill,
+    public String processAddSkillForm(@ModelAttribute @Valid Skill newSkill,
                                          Errors errors, Model model) {
 
         if (errors.hasErrors()) {
-            return "skills/add";
+            return "Skills/add";
         }
-
-        return "redirect:add";
+        skillRepository.save(newSkill);
+        return "redirect:./";
     }
     @GetMapping("view/{skillId}")
-    public String displayViewEmployer(Model model, @PathVariable int skillId) {
+    public String displayViewSkill(Model model, @PathVariable int skillId) {
 
         Optional optSkill = skillRepository.findById(skillId);
         if (optSkill.isPresent()) {
